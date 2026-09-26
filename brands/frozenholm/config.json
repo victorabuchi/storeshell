@@ -1,0 +1,31 @@
+{
+  "name": "Frozenholm",
+  "slug": "frozenholm",
+  "scheme": "frozenholm",
+  "version": "1.0.0",
+  "ios": {
+    "bundleIdentifier": "com.frozenholm.app",
+    "appleMerchantId": "merchant.com.frozenholm.app"
+  },
+  "android": {
+    "package": "com.frozenholm.app"
+  },
+  "shopify": {
+    "storeDomain": "frozenholm.myshopify.com",
+    "apiVersion": "2026-07"
+  },
+  "theme": {
+    "primary": "#0E1A24",
+    "onPrimary": "#FFFFFF",
+    "background": "#FFFFFF",
+    "surface": "#F2F4F6",
+    "text": "#0E1A24",
+    "textMuted": "#6B7682",
+    "border": "#E1E5E9",
+    "radius": 14
+  },
+  "copy": {
+    "homeTitle": "New In",
+    "homeSubtitle": "Built for the cold."
+  }
+}

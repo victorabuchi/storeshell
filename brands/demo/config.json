@@ -1,0 +1,31 @@
+{
+  "name": "Demo Store",
+  "slug": "demo-store",
+  "scheme": "demostore",
+  "version": "1.0.0",
+  "ios": {
+    "bundleIdentifier": "com.celestic.demo"
+  },
+  "android": {
+    "package": "com.celestic.demo"
+  },
+  "shopify": {
+    "storeDomain": "demostore.mock.shop",
+    "apiVersion": "2026-07",
+    "endpoint": "https://mock.shop/api"
+  },
+  "theme": {
+    "primary": "#5B3DF5",
+    "onPrimary": "#FFFFFF",
+    "background": "#FFFFFF",
+    "surface": "#F4F2FF",
+    "text": "#15122B",
+    "textMuted": "#6E6A85",
+    "border": "#E6E3F5",
+    "radius": 10
+  },
+  "copy": {
+    "homeTitle": "Shop",
+    "homeSubtitle": "Shopify's public mock store, for testing without a token."
+  }
+}
