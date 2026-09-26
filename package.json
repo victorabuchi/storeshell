@@ -1,11 +1,14 @@
 {
-  "name": "shell",
+  "name": "celestic",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "dependencies": {
     "@expo/ui": "~57.0.20",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@shopify/checkout-sheet-kit": "^3.9.0",
     "expo": "~57.0.25",
     "expo-constants": "~57.0.19",
+    "expo-dev-client": "~57.0.19",
     "expo-device": "~57.0.2",
     "expo-font": "~57.0.4",
     "expo-glass-effect": "~57.0.4",
@@ -28,16 +31,19 @@
     "react-native-worklets": "0.10.1"
   },
   "devDependencies": {
+    "@types/node": "^26.6.3",
     "@types/react": "~19.2.2",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~57.0.2",
     "typescript": "~6.0.3"
   },
   "scripts": {
-    "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "lint": "expo lint"
+    "dev": "node scripts/brand.js dev",
+    "ios": "node scripts/brand.js ios",
+    "android": "node scripts/brand.js android",
+    "brand:check": "node scripts/brand.js check",
+    "brand:new": "node scripts/brand.js new",
+    "typecheck": "tsc --noEmit"
   },
   "private": true
 }
