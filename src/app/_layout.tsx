@@ -1,18 +1,38 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { ShopifyCheckoutSheetProvider } from '@shopify/checkout-sheet-kit';
+import { DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { theme } from '@/brand';
+import { CartProvider } from '@/cart/cart-provider';
+import { checkoutConfig } from '@/checkout/config';
 
-SplashScreen.preventAutoHideAsync();
+const navigationTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: theme.primary,
+    background: theme.background,
+    card: theme.background,
+    text: theme.text,
+    border: theme.border,
+  },
+};
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <ShopifyCheckoutSheetProvider configuration={checkoutConfig}>
+      <CartProvider>
+        <ThemeProvider value={navigationTheme}>
+          <StatusBar style="dark" />
+          <Stack screenOptions={{ headerTintColor: theme.text, headerShadowVisible: false }}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="product/[handle]"
+              options={{ title: '', headerBackButtonDisplayMode: 'minimal', headerTransparent: true }}
+            />
+          </Stack>
+        </ThemeProvider>
+      </CartProvider>
+    </ShopifyCheckoutSheetProvider>
   );
 }
