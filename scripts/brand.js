@@ -3,19 +3,23 @@
 //
 //   npm run dev -- <brand>          start the dev server
 //   npm run ios -- <brand>          build + run the brand's app on the iOS simulator
+//   npm run ios -- <brand> --device build + run on a connected iPhone
 //   npm run android -- <brand>      build + run on an Android emulator
 //   npm run brand:check -- <brand>  validate brands/<brand>
 //   npm run brand:new -- <brand>    scaffold brands/<brand> from the demo brand
 //
-// <brand> defaults to $BRAND, then "frozenholm".
+// <brand> defaults to $BRAND, then "frozenholm". Extra flags are passed to the Expo CLI.
 
 const { spawnSync } = require('node:child_process');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 
 const root = path.join(__dirname, '..');
 const brandsDir = path.join(root, 'brands');
-const [command, brandArg] = process.argv.slice(2);
+const [command, ...rest] = process.argv.slice(2);
+const brandArg = rest.find((arg) => !arg.startsWith('-'));
+const passthrough = rest.filter((arg) => arg !== brandArg);
 const brandKey = brandArg ?? process.env.BRAND ?? 'frozenholm';
 
 const tokenVar = (key) => `${key.toUpperCase().replace(/-/g, '_')}_STOREFRONT_TOKEN`;
@@ -87,6 +91,7 @@ function check() {
   if (!config.shopify.endpoint && !process.env[tokenVar(brandKey)]) {
     warnings.push(`${tokenVar(brandKey)} is not set in .env.local — Storefront API calls will fail`);
   }
+  if (!config.ios.appleTeamId) warnings.push('ios.appleTeamId not set — Xcode will ask which team signs the app');
   if (!config.ios.appleMerchantId) warnings.push('ios.appleMerchantId not set — Apple Pay buttons disabled');
 
   console.log(`✔ ${config.name} (brands/${brandKey})`);
@@ -94,15 +99,20 @@ function check() {
   return config;
 }
 
-// Native projects are generated per brand (bundle ID, icon, entitlements), so
-// regenerate them whenever the brand changes.
+// Native projects are generated per brand (bundle ID, team, icon, entitlements),
+// so regenerate them whenever the brand or its config/assets change.
 function prebuildIfNeeded(platform) {
+  const hash = crypto.createHash('sha1');
+  for (const file of ['config.json', 'icon.png', 'splash.png']) {
+    hash.update(fs.readFileSync(path.join(brandsDir, brandKey, file)));
+  }
+  const stamp = `${brandKey}:${hash.digest('hex')}`;
   const marker = path.join(root, platform, '.celestic-brand');
   const current = fs.existsSync(marker) ? fs.readFileSync(marker, 'utf8').trim() : null;
-  if (current !== brandKey) {
-    console.log(`\n→ Generating ${platform}/ for ${brandKey}${current ? ` (was ${current})` : ''}\n`);
+  if (current !== stamp) {
+    console.log(`\n→ Generating ${platform}/ for ${brandKey}\n`);
     run('npx', ['expo', 'prebuild', '--clean', '--platform', platform]);
-    fs.writeFileSync(marker, brandKey);
+    fs.writeFileSync(marker, stamp);
   }
 }
 
@@ -134,13 +144,13 @@ switch (command) {
     break;
   case 'dev':
     check();
-    run('npx', ['expo', 'start', '--dev-client']);
+    run('npx', ['expo', 'start', '--dev-client', ...passthrough]);
     break;
   case 'ios':
   case 'android':
     check();
     prebuildIfNeeded(command);
-    run('npx', ['expo', `run:${command}`]);
+    run('npx', ['expo', `run:${command}`, ...passthrough]);
     break;
   case 'new':
     scaffold();

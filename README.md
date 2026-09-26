@@ -13,6 +13,7 @@ One Expo codebase that builds a separate native storefront app per Shopify brand
 | Command | What it does |
 | --- | --- |
 | `npm run ios -- <brand>` | Builds the brand's app and runs it on the iOS simulator |
+| `npm run ios -- <brand> --device` | Same, on a connected iPhone |
 | `npm run android -- <brand>` | Same for Android |
 | `npm run dev -- <brand>` | Starts the dev server for an already-installed build |
 | `npm run brand:check -- <brand>` | Validates the brand's config, assets and token |
@@ -24,7 +25,7 @@ The app uses native modules, so it runs in a development build, not Expo Go. `io
 ## Adding a brand
 
 1. `npm run brand:new -- acme`
-2. Edit `brands/acme/config.json`: name, bundle ID, store domain, colors.
+2. Edit `brands/acme/config.json`: name, bundle ID, Apple team ID, store domain, colors.
 3. Replace `icon.png` (1024×1024) and `splash.png`.
 4. Add `ACME_STOREFRONT_TOKEN=...` to `.env.local`. Get the token from the Headless channel in the brand's Shopify admin.
 5. `npm run ios -- acme`
