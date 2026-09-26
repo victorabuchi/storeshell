@@ -61,6 +61,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           imageWidth: 120,
         },
       ],
+      './plugins/withUserScriptSandboxingDisabled',
     ],
     experiments: {
       typedRoutes: true,
