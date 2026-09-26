@@ -1,56 +1,41 @@
-# Welcome to your Expo app 👋
+# Celestic
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+One Expo codebase that builds a separate native storefront app per Shopify brand.
 
-## Get started
+- **Shared (built once):** screens in `src/app`, Storefront API client in `src/shopify`, cart in `src/cart`, checkout in `src/checkout`.
+- **Per brand:** `brands/<brand>/config.json` + `icon.png` + `splash.png`, and a Storefront token in `.env.local`.
+- **Checkout:** [Shopify Checkout Kit](https://github.com/Shopify/checkout-sheet-kit-react-native). Native Apple Pay buttons on product + bag, and a native checkout sheet (cards, Shop Pay, Apple Pay) in the brand's colors. Orders land in the brand's Shopify admin.
 
-1. Install dependencies
+## Commands
 
-   ```bash
-   npm install
-   ```
+`<brand>` is a folder in `brands/` and defaults to `frozenholm`.
 
-2. Start the app
+| Command | What it does |
+| --- | --- |
+| `npm run ios -- <brand>` | Builds the brand's app and runs it on the iOS simulator |
+| `npm run android -- <brand>` | Same for Android |
+| `npm run dev -- <brand>` | Starts the dev server for an already-installed build |
+| `npm run brand:check -- <brand>` | Validates the brand's config, assets and token |
+| `npm run brand:new -- <brand>` | Scaffolds a new brand folder |
+| `npm run typecheck` | TypeScript check |
 
-   ```bash
-   npx expo start
-   ```
+The app uses native modules, so it runs in a development build, not Expo Go. `ios/` and `android/` are generated and git-ignored. `npm run ios` regenerates them when you switch brands.
 
-In the output, you'll find options to open the app in a
+## Adding a brand
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+1. `npm run brand:new -- acme`
+2. Edit `brands/acme/config.json`: name, bundle ID, store domain, colors.
+3. Replace `icon.png` (1024×1024) and `splash.png`.
+4. Add `ACME_STOREFRONT_TOKEN=...` to `.env.local`. Get the token from the Headless channel in the brand's Shopify admin.
+5. `npm run ios -- acme`
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+The `demo` brand points at Shopify's public mock store and needs no token.
 
-## Get a fresh project
+## Apple Pay setup (per brand)
 
-When you're ready, run:
+The buttons appear only when all of these are in place:
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+1. A merchant ID (e.g. `merchant.com.frozenholm.app`) in the brand's Apple developer account, set as `ios.appleMerchantId`.
+2. An Apple Pay payment processing certificate created through Shopify ([guide](https://shopify.dev/docs/storefronts/mobile/create-apple-payment-processing-certificates)).
+3. The `write_cart_wallet_payments` scope on the Storefront token.
+4. A real device or simulator with Apple Pay set up.
