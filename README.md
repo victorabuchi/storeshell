@@ -1,4 +1,4 @@
-# Celestic
+# Storeshell
 
 One Expo codebase that builds a separate native storefront app per Shopify brand.
 

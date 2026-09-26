@@ -107,7 +107,7 @@ function prebuildIfNeeded(platform) {
     hash.update(fs.readFileSync(path.join(brandsDir, brandKey, file)));
   }
   const stamp = `${brandKey}:${hash.digest('hex')}`;
-  const marker = path.join(root, platform, '.celestic-brand');
+  const marker = path.join(root, platform, '.storeshell-brand');
   const current = fs.existsSync(marker) ? fs.readFileSync(marker, 'utf8').trim() : null;
   if (current !== stamp) {
     console.log(`\n→ Generating ${platform}/ for ${brandKey}\n`);

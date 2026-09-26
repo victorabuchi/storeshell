@@ -4,11 +4,11 @@
   "scheme": "demostore",
   "version": "1.0.0",
   "ios": {
-    "bundleIdentifier": "com.celestic.demo",
+    "bundleIdentifier": "com.storeshell.demo",
     "appleTeamId": "4T4AXT6P7X"
   },
   "android": {
-    "package": "com.celestic.demo"
+    "package": "com.storeshell.demo"
   },
   "shopify": {
     "storeDomain": "demostore.mock.shop",

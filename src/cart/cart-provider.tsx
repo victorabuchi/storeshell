@@ -6,7 +6,7 @@ import { brandKey } from '@/brand';
 import { addCartLines, createCart, getCart, removeCartLines, updateCartLines } from '@/shopify/cart';
 import type { Cart } from '@/shopify/types';
 
-const STORAGE_KEY = `celestic:${brandKey}:cartId`;
+const STORAGE_KEY = `storeshell:${brandKey}:cartId`;
 
 type CartContext = {
   cart: Cart | null;
