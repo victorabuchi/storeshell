@@ -35,6 +35,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     userInterfaceStyle: 'light',
     ios: {
       bundleIdentifier: brand.ios.bundleIdentifier,
+      appleTeamId: brand.ios.appleTeamId,
       supportsTablet: false,
       entitlements: brand.ios.appleMerchantId
         ? { 'com.apple.developer.in-app-payments': [brand.ios.appleMerchantId] }

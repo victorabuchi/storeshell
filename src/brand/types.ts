@@ -6,6 +6,8 @@ export type BrandConfig = {
   version: string;
   ios: {
     bundleIdentifier: string;
+    // Apple developer team that signs the app (the brand's own account).
+    appleTeamId?: string;
     // Enables native Apple Pay buttons. Must match the merchant ID registered
     // in the brand's Apple developer account and connected to Shopify.
     appleMerchantId?: string;
