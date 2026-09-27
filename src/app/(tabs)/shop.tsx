@@ -4,11 +4,13 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { brand, theme } from '@/brand';
 import { ProductCard } from '@/components/product-card';
 import { ErrorState, Loading } from '@/components/status';
+import { useStatusBar } from '@/lib/use-status-bar';
 import { useAsync } from '@/lib/use-async';
 import { getProducts } from '@/shopify/products';
 
-export default function HomeScreen() {
+export default function ShopScreen() {
   const insets = useSafeAreaInsets();
+  useStatusBar('dark');
   const { data, error, loading, refetch } = useAsync(() => getProducts(), 'products');
 
   if (error) return <ErrorState error={error} onRetry={refetch} />;
@@ -30,6 +32,12 @@ export default function HomeScreen() {
           <Text style={styles.subtitle}>{brand.copy.homeSubtitle}</Text>
         </View>
       }
+      ListEmptyComponent={
+        <View style={styles.empty}>
+          <Text style={styles.emptyTitle}>New drops are on the way</Text>
+          <Text style={styles.subtitle}>Check back soon, or turn on notifications to hear first.</Text>
+        </View>
+      }
       renderItem={({ item }) => <ProductCard product={item} />}
     />
   );
@@ -43,4 +51,6 @@ const styles = StyleSheet.create({
   brand: { fontSize: 13, fontWeight: '700', letterSpacing: 2, color: theme.textMuted },
   title: { fontSize: 32, fontWeight: '700', color: theme.text },
   subtitle: { fontSize: 15, color: theme.textMuted },
+  empty: { paddingVertical: 48, gap: 6 },
+  emptyTitle: { fontSize: 18, fontWeight: '600', color: theme.text },
 });

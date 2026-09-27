@@ -14,9 +14,11 @@ import { useCart } from '@/cart/cart-provider';
 import { walletButtons } from '@/checkout/config';
 import { Button } from '@/components/button';
 import { formatMoney, variantLabel } from '@/lib/format';
+import { useStatusBar } from '@/lib/use-status-bar';
 import type { CartLine } from '@/shopify/types';
 
 export default function CartScreen() {
+  useStatusBar('dark');
   const insets = useSafeAreaInsets();
   const { cart, busy, setLineQuantity, clear } = useCart();
   const checkout = useShopifyCheckoutSheet();
