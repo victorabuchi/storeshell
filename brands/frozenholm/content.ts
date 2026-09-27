@@ -5,7 +5,10 @@ const images = {
   homeHero: require('./images/home-hero.jpg'),
   men: require('./images/men.jpg'),
   women: require('./images/women.jpg'),
-  wall: require('./images/wall.jpg'),
+  studio1: require('./images/studio-1.jpg'),
+  studio2: require('./images/studio-2.jpg'),
+  studio3: require('./images/studio-3.jpg'),
+  studio4: require('./images/studio-4.jpg'),
   outerwear: require('./images/outerwear.jpg'),
   knitwear: require('./images/knitwear.jpg'),
   denim: require('./images/denim.jpg'),
@@ -31,7 +34,7 @@ const content: BrandContent = {
   onboarding: {
     intro: {
       title: 'Tell us what you wear. A few quick questions.',
-      images: [images.welcome, images.essentials, images.women, images.denim, images.wall, images.homeHero],
+      images: [images.studio1, images.men, images.studio2, images.studio3, images.essentials, images.studio4],
     },
     shopFor: {
       title: 'Who do you shop for?',
