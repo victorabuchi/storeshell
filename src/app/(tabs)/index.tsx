@@ -75,7 +75,7 @@ export default function HomeScreen() {
           <View style={styles.emptyCard}>
             <BrandMark height={18} color={theme.text} />
             <Text style={styles.emptyTitle}>New drops are on the way</Text>
-            <Text style={styles.emptyBody}>{brand.name} gear lands here first.</Text>
+            <Text style={styles.emptyBody}>New {brand.name} pieces land here first.</Text>
           </View>
         )}
       </Section>

@@ -19,7 +19,7 @@ const content: BrandContent = {
   tagline: "Greatness doesn't wait for good conditions.",
   welcome: {
     image: images.welcome,
-    headline: 'Gear built for the cold, early access to drops, and the best of Frozenholm.',
+    headline: 'Scandinavian fashion, early access to new drops, and the best of Frozenholm.',
   },
   hero: {
     image: images.homeHero,
@@ -40,7 +40,7 @@ const content: BrandContent = {
       ],
     },
     activities: {
-      title: 'What do you do in the cold?',
+      title: 'How do you spend winter?',
       options: [
         { id: 'skiing', label: 'Skiing', image: images.skiing },
         { id: 'snowboarding', label: 'Snowboarding', image: images.snowboarding },
