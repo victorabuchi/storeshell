@@ -1,106 +1,195 @@
+import { Paths, File } from 'expo-file-system';
+import { Image } from 'expo-image';
+import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
+import { SymbolView, type SFSymbol } from 'expo-symbols';
+import * as WebBrowser from 'expo-web-browser';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAccount } from '@/account/account-provider';
 import { brand, content, theme } from '@/brand';
 import { BrandMark } from '@/components/brand-mark';
-import { Button } from '@/components/button';
+import { ListRow } from '@/components/list-row';
+import { PillButton } from '@/components/pill-button';
 import { useStatusBar } from '@/lib/use-status-bar';
 import { usePreferences } from '@/preferences/preferences-provider';
 
-const labels = (ids: string[], options: { id: string; label: string }[]) =>
-  options.filter((o) => ids.includes(o.id)).map((o) => o.label).join(', ') || 'Not set';
+const storeUrl = `https://${brand.shopify.storeDomain}`;
 
 export default function ProfileScreen() {
   useStatusBar('dark');
   const insets = useSafeAreaInsets();
   const account = useAccount();
-  const { preferences } = usePreferences();
+  const { preferences, update } = usePreferences();
   const { customer } = account;
 
   const name = [customer?.firstName, customer?.lastName].filter(Boolean).join(' ');
-  const initials = (customer?.firstName?.[0] ?? '') + (customer?.lastName?.[0] ?? '');
+  const activities = content.onboarding.activities.options
+    .filter((o) => preferences.activities.includes(o.id))
+    .map((o) => o.label);
 
-  const signIn = () =>
-    account.signIn().catch((e: Error) => Alert.alert('Could not sign in', e.message));
+  const signIn = () => account.signIn().catch((e: Error) => Alert.alert('Could not sign in', e.message));
+
+  // Orders need an account; everything else works signed out.
+  const openOrders = () => (customer ? router.push('/orders') : signIn());
+
+  const pickAvatar = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+    if (result.canceled) return;
+    // The picker's file lives in a cache that iOS can clear, so keep a copy.
+    const saved = new File(Paths.document, `avatar-${Date.now()}.jpg`);
+    new File(result.assets[0].uri).copy(saved);
+    if (preferences.avatarUri) new File(preferences.avatarUri).delete();
+    update({ avatarUri: saved.uri });
+  };
 
   return (
     <ScrollView
       style={styles.screen}
-      contentContainerStyle={[styles.content, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 120 }]}>
-      {customer ? (
-        <View style={styles.header}>
-          <View style={styles.avatar}>
-            <Text style={styles.initials}>{initials.toUpperCase() || '·'}</Text>
-          </View>
-          <Text style={styles.name}>{name || customer.emailAddress?.emailAddress}</Text>
-          {name ? <Text style={styles.muted}>{customer.emailAddress?.emailAddress}</Text> : null}
-          <Text style={styles.muted}>Member since {new Date(customer.creationDate).getFullYear()}</Text>
-        </View>
-      ) : (
-        <View style={styles.header}>
-          <BrandMark size={64} color={theme.text} />
-          <Text style={styles.name}>Become a {brand.name} Member</Text>
-          <Text style={[styles.muted, styles.center]}>{content.tagline}</Text>
-          {account.available && (
-            <View style={styles.signIn}>
-              <Button title="Join Us or Sign In" onPress={signIn} loading={account.signingIn} />
+      contentContainerStyle={{ paddingTop: insets.top + 32, paddingBottom: insets.bottom + 100 }}>
+      <View style={styles.header}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Change profile photo" onPress={pickAvatar}>
+          {preferences.avatarUri ? (
+            <Image source={preferences.avatarUri} style={styles.avatar} contentFit="cover" />
+          ) : (
+            <View style={styles.avatar}>
+              <SymbolView name="camera" size={40} tintColor="#FFFFFF" />
             </View>
           )}
-        </View>
-      )}
+        </Pressable>
 
-      <View style={styles.card}>
-        <Row label="Shopping for" value={labels(preferences.shopFor, content.onboarding.shopFor.options)} />
-        <Row label="Activities" value={labels(preferences.activities, content.onboarding.activities.options)} />
-        <Row label="Size" value={preferences.size ?? 'Not set'} last />
+        {customer ? (
+          <>
+            <Text style={styles.name}>{name || customer.emailAddress?.emailAddress}</Text>
+            <OutlineButton title="Edit Profile" onPress={() => router.push('/edit-profile')} />
+          </>
+        ) : (
+          <>
+            <BrandMark height={22} color={theme.text} />
+            <Text style={styles.pitch}>{content.tagline}</Text>
+            {account.available && (
+              <PillButton
+                title="Join Us or Sign In"
+                variant="dark"
+                onPress={signIn}
+                loading={account.signingIn}
+              />
+            )}
+          </>
+        )}
       </View>
-      <Button title="Edit preferences" variant="secondary" onPress={() => router.push('/onboarding')} />
+
+      <View style={styles.actions}>
+        <QuickAction icon="shippingbox" label="Orders" onPress={openOrders} />
+        <QuickAction icon="heart" label="Favourites" onPress={() => router.push('/favourites')} />
+        <QuickAction icon="slider.horizontal.3" label="Preferences" onPress={() => router.push('/onboarding')} />
+        <QuickAction icon="gearshape" label="Settings" onPress={() => router.push('/settings')} last />
+      </View>
+
+      <View style={styles.list}>
+        <ListRow
+          large
+          label="Your preferences"
+          value={[preferences.size && `Size ${preferences.size}`, ...activities].filter(Boolean).join(' · ') || 'Not set'}
+          onPress={() => router.push('/onboarding')}
+        />
+        {customer && (
+          <ListRow
+            large
+            label="Delivery addresses"
+            value={`${customer.addresses.nodes.length} saved`}
+            onPress={() => router.push('/addresses')}
+          />
+        )}
+        <ListRow
+          large
+          label="Get help"
+          value={`Contact ${brand.name}`}
+          onPress={() => WebBrowser.openBrowserAsync(`${storeUrl}/pages/contact`)}
+        />
+      </View>
 
       {customer && (
-        <Pressable accessibilityRole="button" onPress={account.signOut} style={styles.signOut}>
-          <Text style={styles.signOutLabel}>Sign out</Text>
-        </Pressable>
+        <View style={styles.memberSince}>
+          <Text style={styles.memberSinceText}>
+            Member Since{' '}
+            {new Date(customer.creationDate).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}
+          </Text>
+        </View>
       )}
     </ScrollView>
   );
 }
 
-function Row({ label, value, last }: { label: string; value: string; last?: boolean }) {
+function OutlineButton({ title, onPress }: { title: string; onPress: () => void }) {
   return (
-    <View style={[styles.row, !last && styles.rowDivider]}>
-      <Text style={styles.rowLabel}>{label}</Text>
-      <Text style={styles.rowValue} numberOfLines={2}>
-        {value}
-      </Text>
-    </View>
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      style={({ pressed }) => [styles.outline, pressed && { opacity: 0.6 }]}>
+      <Text style={styles.outlineLabel}>{title}</Text>
+    </Pressable>
+  );
+}
+
+function QuickAction({
+  icon,
+  label,
+  onPress,
+  last,
+}: {
+  icon: SFSymbol;
+  label: string;
+  onPress: () => void;
+  last?: boolean;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      style={({ pressed }) => [styles.action, !last && styles.actionDivider, pressed && { opacity: 0.5 }]}>
+      <SymbolView name={icon} size={24} tintColor={theme.text} />
+      <Text style={styles.actionLabel}>{label}</Text>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: theme.background },
-  content: { paddingHorizontal: 20, gap: 20 },
-  header: { alignItems: 'center', gap: 8, paddingBottom: 12 },
+  header: { alignItems: 'center', gap: 16, paddingHorizontal: 24 },
   avatar: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
-    backgroundColor: theme.primary,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#C7C7CC',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 8,
   },
-  initials: { color: theme.onPrimary, fontSize: 30, fontWeight: '700' },
-  name: { fontSize: 24, fontWeight: '700', color: theme.text, marginTop: 8, textAlign: 'center' },
-  muted: { fontSize: 15, color: theme.textMuted },
-  center: { textAlign: 'center' },
-  signIn: { alignSelf: 'stretch', marginTop: 16 },
-  card: { borderRadius: theme.radius, backgroundColor: theme.surface, paddingHorizontal: 16 },
-  row: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 16, gap: 16 },
-  rowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: theme.border },
-  rowLabel: { fontSize: 15, color: theme.textMuted },
-  rowValue: { flex: 1, fontSize: 15, fontWeight: '500', color: theme.text, textAlign: 'right' },
-  signOut: { alignItems: 'center', paddingVertical: 12 },
-  signOutLabel: { fontSize: 16, color: theme.textMuted, fontWeight: '500' },
+  name: { fontSize: 24, fontWeight: '500', color: theme.text },
+  pitch: { fontSize: 16, color: theme.textMuted, textAlign: 'center' },
+  outline: {
+    height: 46,
+    paddingHorizontal: 24,
+    borderRadius: 23,
+    borderWidth: 1,
+    borderColor: theme.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  outlineLabel: { fontSize: 16, fontWeight: '500', color: theme.text },
+
+  actions: { flexDirection: 'row', marginTop: 36, marginBottom: 24, paddingHorizontal: 12 },
+  action: { flex: 1, alignItems: 'center', gap: 10, paddingVertical: 8 },
+  actionDivider: { borderRightWidth: StyleSheet.hairlineWidth, borderRightColor: theme.border },
+  actionLabel: { fontSize: 14, color: theme.text },
+
+  list: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.border },
+  memberSince: { marginTop: 32, paddingVertical: 20, backgroundColor: theme.surface, alignItems: 'center' },
+  memberSinceText: { fontSize: 14, color: theme.textMuted },
 });

@@ -8,6 +8,8 @@ export type Preferences = {
   shopFor: string[];
   activities: string[];
   size?: string;
+  // Profile photo chosen on this device (file in the app's document directory).
+  avatarUri?: string;
 };
 
 const EMPTY: Preferences = { onboarded: false, shopFor: [], activities: [] };

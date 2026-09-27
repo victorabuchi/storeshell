@@ -7,6 +7,7 @@ import { AccountProvider } from '@/account/account-provider';
 import { theme } from '@/brand';
 import { CartProvider } from '@/cart/cart-provider';
 import { checkoutConfig } from '@/checkout/config';
+import { FavouritesProvider } from '@/favourites/favourites-provider';
 import { PreferencesProvider, usePreferences } from '@/preferences/preferences-provider';
 
 SplashScreen.preventAutoHideAsync();
@@ -22,6 +23,8 @@ const navigationTheme = {
     border: theme.border,
   },
 };
+
+const backOnly = { headerBackButtonDisplayMode: 'minimal' } as const;
 
 function RootNavigator() {
   const { ready, preferences } = usePreferences();
@@ -40,6 +43,11 @@ function RootNavigator() {
           name="product/[handle]"
           options={{ title: '', headerBackButtonDisplayMode: 'minimal', headerTransparent: true }}
         />
+        <Stack.Screen name="settings" options={{ title: 'Settings', ...backOnly }} />
+        <Stack.Screen name="orders" options={{ title: 'Orders', ...backOnly }} />
+        <Stack.Screen name="favourites" options={{ title: 'Favourites', ...backOnly }} />
+        <Stack.Screen name="addresses" options={{ title: 'Delivery Information', ...backOnly }} />
+        <Stack.Screen name="edit-profile" options={{ title: 'Edit Profile', ...backOnly }} />
       </Stack.Protected>
       <Stack.Protected guard={!preferences.onboarded}>
         <Stack.Screen name="welcome" options={{ headerShown: false }} />
@@ -56,10 +64,12 @@ export default function RootLayout() {
       <PreferencesProvider>
         <AccountProvider>
           <CartProvider>
-            <ThemeProvider value={navigationTheme}>
-              <StatusBar style="dark" />
-              <RootNavigator />
-            </ThemeProvider>
+            <FavouritesProvider>
+              <ThemeProvider value={navigationTheme}>
+                <StatusBar style="dark" />
+                <RootNavigator />
+              </ThemeProvider>
+            </FavouritesProvider>
           </CartProvider>
         </AccountProvider>
       </PreferencesProvider>

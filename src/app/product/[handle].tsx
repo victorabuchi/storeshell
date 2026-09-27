@@ -4,7 +4,8 @@ import {
   useShopifyCheckoutSheet,
 } from '@shopify/checkout-sheet-kit';
 import { Image } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
+import { SymbolView } from 'expo-symbols';
 import { useState } from 'react';
 import {
   Alert,
@@ -25,9 +26,10 @@ import { walletButtons } from '@/checkout/config';
 import { Button } from '@/components/button';
 import { Price } from '@/components/price';
 import { ErrorState, Loading } from '@/components/status';
+import { useFavourites } from '@/favourites/favourites-provider';
 import { useAsync } from '@/lib/use-async';
 import { getProduct } from '@/shopify/products';
-import type { Product, Variant } from '@/shopify/types';
+import type { Product, ProductSummary, Variant } from '@/shopify/types';
 
 export default function ProductScreen() {
   const { handle } = useLocalSearchParams<{ handle: string }>();
@@ -78,6 +80,7 @@ function ProductView({ product }: { product: Product }) {
 
   return (
     <View style={styles.screen}>
+      <Stack.Screen options={{ headerRight: () => <FavouriteButton product={product} /> }} />
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         <FlatList
           data={images}
@@ -152,6 +155,33 @@ function ProductView({ product }: { product: Product }) {
         )}
       </View>
     </View>
+  );
+}
+
+// Favourites store the same summary the product grids use.
+function toSummary(product: Product): ProductSummary {
+  const first = product.variants.nodes[0];
+  return {
+    id: product.id,
+    handle: product.handle,
+    title: product.title,
+    featuredImage: product.images.nodes[0] ?? null,
+    priceRange: { minVariantPrice: first.price },
+    compareAtPriceRange: { minVariantPrice: first.compareAtPrice ?? first.price },
+  };
+}
+
+function FavouriteButton({ product }: { product: Product }) {
+  const { isFavourite, toggle } = useFavourites();
+  const active = isFavourite(product.id);
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={active ? 'Remove from favourites' : 'Add to favourites'}
+      onPress={() => toggle(toSummary(product))}
+      hitSlop={8}>
+      <SymbolView name={active ? 'heart.fill' : 'heart'} tintColor={theme.text} size={22} />
+    </Pressable>
   );
 }
 
