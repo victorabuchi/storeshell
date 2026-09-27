@@ -1,7 +1,9 @@
-import { NativeTabs } from 'expo-router/unstable-native-tabs';
+import { NativeTabs, type MaterialIcon, type SFSymbolIcon } from 'expo-router/unstable-native-tabs';
 
-import { theme } from '@/brand';
+import { content, theme } from '@/brand';
 import { useCart } from '@/cart/cart-provider';
+
+const shopIcon = content.shopIcon ?? { sf: 'bag', md: 'storefront' };
 
 export default function TabsLayout() {
   const { cart } = useCart();
@@ -14,12 +16,12 @@ export default function TabsLayout() {
       labelStyle={{ selected: { color: theme.primary } }}>
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={{ default: 'house', selected: 'house.fill' }} md="home" />
+        <NativeTabs.Trigger.Icon sf="house" md="home" />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="shop">
         <NativeTabs.Trigger.Label>Shop</NativeTabs.Trigger.Label>
-        <NativeTabs.Trigger.Icon sf={{ default: 'snowflake', selected: 'snowflake' }} md="ac_unit" />
+        <NativeTabs.Trigger.Icon sf={shopIcon.sf as SFSymbolIcon['sf']} md={shopIcon.md as MaterialIcon['md']} />
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="cart">

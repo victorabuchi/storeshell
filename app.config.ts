@@ -21,13 +21,11 @@ const asset = (file: string) => `./brands/${brandKey}/${file}`;
 const storefrontToken =
   process.env[`${brandKey.toUpperCase().replace(/-/g, '_')}_STOREFRONT_TOKEN`] ?? '';
 
-const logoSvg = fs.readFileSync(path.join(brandDir, 'logo.svg'), 'utf8');
-
 // Shopify's customer account sign-in redirects mobile apps to shop.<shopId>.app://callback
 const schemes = [brand.scheme, ...(brand.shopify.shopId ? [`shop.${brand.shopify.shopId}.app`] : [])];
 
 export default ({ config }: ConfigContext): ExpoConfig => {
-  const extra: BrandExtra = { brandKey, brand, storefrontToken, logoSvg };
+  const extra: BrandExtra = { brandKey, brand, storefrontToken };
 
   return {
     ...config,
@@ -59,6 +57,14 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     plugins: [
       'expo-router',
       'expo-secure-store',
+      [
+        'expo-image-picker',
+        {
+          photosPermission: 'Choose a photo for your profile.',
+          cameraPermission: false,
+          microphonePermission: false,
+        },
+      ],
       [
         'expo-splash-screen',
         {

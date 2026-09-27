@@ -27,11 +27,16 @@ export default function WelcomeScreen() {
   return (
     <View style={styles.screen}>
       <StatusBar style="light" />
-      <Image source={content.welcome.image} style={StyleSheet.absoluteFill} contentFit="cover" />
+      <Image
+        source={content.welcome.image}
+        style={StyleSheet.absoluteFill}
+        contentFit="cover"
+        contentPosition="top"
+      />
       <Scrim strength={0.92} />
 
       <View style={[styles.bottom, { paddingBottom: insets.bottom + 24 }]}>
-        <BrandMark size={64} color="#FFFFFF" />
+        <BrandMark height={30} color="#FFFFFF" />
         <Text style={styles.headline}>{content.welcome.headline}</Text>
 
         {account.available ? (

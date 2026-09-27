@@ -28,10 +28,15 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.screen} contentInsetAdjustmentBehavior="never">
       <View style={[styles.hero, { height }]}>
-        <Image source={content.hero.image} style={StyleSheet.absoluteFill} contentFit="cover" />
+        <Image
+          source={content.hero.image}
+          style={StyleSheet.absoluteFill}
+          contentFit="cover"
+          contentPosition="top"
+        />
         <Scrim strength={0.8} />
         <View style={[styles.heroContent, { paddingBottom: insets.bottom + 110 }]}>
-          <BrandMark size={52} color="#FFFFFF" />
+          <BrandMark height={24} color="#FFFFFF" />
           <Text style={styles.eyebrow}>{content.hero.eyebrow.toUpperCase()}</Text>
           <Text style={styles.heroTitle}>{content.hero.title}</Text>
           <Text style={styles.heroSubtitle}>{content.hero.subtitle}</Text>
@@ -68,7 +73,7 @@ export default function HomeScreen() {
           />
         ) : (
           <View style={styles.emptyCard}>
-            <BrandMark size={40} color={theme.text} />
+            <BrandMark height={18} color={theme.text} />
             <Text style={styles.emptyTitle}>New drops are on the way</Text>
             <Text style={styles.emptyBody}>{brand.name} gear lands here first.</Text>
           </View>

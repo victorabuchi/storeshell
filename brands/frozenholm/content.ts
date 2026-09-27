@@ -14,6 +14,9 @@ const images = {
 };
 
 const content: BrandContent = {
+  logo: require('./logo.png'),
+  logoAspectRatio: 736 / 127,
+  shopIcon: { sf: 'jacket', md: 'checkroom' },
   tagline: "Greatness doesn't wait for good conditions.",
   welcome: {
     image: images.welcome,

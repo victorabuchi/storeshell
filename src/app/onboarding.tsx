@@ -129,7 +129,7 @@ export default function OnboardingScreen() {
 
         {step === 'done' && (
           <View style={[styles.flex, styles.padded, styles.done]}>
-            <BrandMark size={72} color="#FFFFFF" />
+            <BrandMark height={34} color="#FFFFFF" />
             <Text style={styles.doneTitle}>
               {customer?.firstName ? `Hi ${customer.firstName},\n` : ''}Welcome to {brand.name}.
             </Text>

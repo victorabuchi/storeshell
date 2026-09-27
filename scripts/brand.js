@@ -81,7 +81,7 @@ function check() {
   for (const [key, value] of Object.entries(config.theme ?? {})) {
     if (key !== 'radius' && !/^#[0-9a-fA-F]{6}$/.test(value)) errors.push(`theme.${key} must be a #RRGGBB color`);
   }
-  for (const file of ['icon.png', 'splash.png', 'logo.svg', 'content.ts']) {
+  for (const file of ['icon.png', 'splash.png', 'content.ts']) {
     if (!fs.existsSync(path.join(dir, file))) errors.push(`missing brands/${brandKey}/${file}`);
   }
   if (errors.length) fail(`brands/${brandKey} is invalid:\n  - ${errors.join('\n  - ')}`);
@@ -136,8 +136,8 @@ function scaffold() {
 
   console.log(`✔ Created brands/${brandKey}. Next:
   1. Edit brands/${brandKey}/config.json (name, colors, store domain, bundle ID)
-  2. Replace icon.png (1024×1024), splash.png and logo.svg (fill="currentColor")
-     and put the brand's photos, copy and onboarding choices in content.ts
+  2. Replace icon.png (1024×1024) and splash.png with the brand's own artwork, and put
+     its logo (transparent PNG), photos, copy and onboarding choices in content.ts
   3. Add ${tokenVar(brandKey)}=... to .env.local
   4. npm run ios -- ${brandKey}`);
 }

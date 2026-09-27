@@ -47,8 +47,6 @@ export type BrandExtra = {
   brandKey: string;
   brand: BrandConfig;
   storefrontToken: string;
-  // brands/<brand>/logo.svg, drawn with fill="currentColor"
-  logoSvg: string;
 };
 
 // Result of require('./images/x.jpg')
@@ -59,6 +57,13 @@ export type ChoiceOption = { id: string; label: string; image?: ImageAsset };
 // Shape of brands/<brand>/content.ts: photos, copy and onboarding choices.
 // Loaded through the @brand-content alias (metro.config.js).
 export type BrandContent = {
+  // The brand's own logo file (transparent PNG, tinted in the app). Without it
+  // the brand name is shown as text.
+  logo?: ImageAsset;
+  // Width ÷ height of the logo, used to size it.
+  logoAspectRatio?: number;
+  // Shop tab icon: an SF Symbol (iOS) and Material icon (Android) for what the brand sells.
+  shopIcon?: { sf: string; md: string };
   tagline: string;
   welcome: { image: ImageAsset; headline: string };
   hero: { image: ImageAsset; eyebrow: string; title: string; subtitle: string; cta: string };

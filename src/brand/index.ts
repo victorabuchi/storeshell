@@ -13,7 +13,6 @@ export const brandKey = extra.brandKey;
 export const brand = extra.brand;
 export const theme = extra.brand.theme;
 export const storefrontToken = extra.storefrontToken;
-export const logoSvg = extra.logoSvg;
 export const content = brandContent;
 
 export const storefrontEndpoint =
