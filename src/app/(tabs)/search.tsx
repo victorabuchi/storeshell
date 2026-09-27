@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { content, theme } from '@/brand';
+import { content, displayFont, theme } from '@/brand';
 import { ProductCard } from '@/components/product-card';
 import { useAsync } from '@/lib/use-async';
 import { useStatusBar } from '@/lib/use-status-bar';
@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.surface,
   },
   suggestions: { paddingHorizontal: 20, paddingTop: 20, gap: 16 },
-  heading: { fontSize: 15, fontWeight: '600', color: theme.textMuted },
-  suggestion: { fontSize: 22, fontWeight: '600', color: theme.text },
+  heading: { ...displayFont, fontSize: 16, letterSpacing: 3, color: theme.textMuted },
+  suggestion: { ...displayFont, fontSize: 32, color: theme.text },
   loading: { marginTop: 40 },
   results: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 120, gap: 24 },
   row: { gap: 12 },

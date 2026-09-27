@@ -18,17 +18,24 @@
     "customerAccountClientId": "1cf8f91b-5b91-4b81-a7fb-60d0e4093dc4"
   },
   "theme": {
-    "primary": "#0E1A24",
+    "primary": "#111111",
     "onPrimary": "#FFFFFF",
     "background": "#FFFFFF",
-    "surface": "#F2F4F6",
-    "text": "#0E1A24",
-    "textMuted": "#6B7682",
-    "border": "#E1E5E9",
+    "surface": "#F5F5F5",
+    "text": "#111111",
+    "textMuted": "#707072",
+    "border": "#E5E5E5",
     "radius": 14
   },
   "copy": {
     "homeTitle": "New In",
     "homeSubtitle": "Built for the cold."
+  },
+  "fonts": {
+    "display": "Norwester",
+    "postScriptName": "Norwester-Regular",
+    "files": [
+      "fonts/norwester.ttf"
+    ]
   }
 }

@@ -40,6 +40,14 @@ export type BrandConfig = {
     homeTitle: string;
     homeSubtitle: string;
   };
+  // Display font for headings, buttons and labels. `files` are embedded at build
+  // time (paths relative to the brand folder); `display` is the font's family name.
+  fonts?: {
+    display: string;
+    // Native UIKit views (tab bar) look fonts up by PostScript name instead.
+    postScriptName: string;
+    files: string[];
+  };
 };
 
 // What app.config.ts exposes to the running app via Constants.expoConfig.extra.
@@ -62,11 +70,9 @@ export type BrandContent = {
   logo?: ImageAsset;
   // Width ÷ height of the logo, used to size it.
   logoAspectRatio?: number;
-  // Shop tab icon: an SF Symbol (iOS) and Material icon (Android) for what the brand sells.
-  shopIcon?: { sf: string; md: string };
   tagline: string;
   welcome: { image: ImageAsset; headline: string };
-  hero: { image: ImageAsset; eyebrow: string; title: string; subtitle: string; cta: string };
+  hero: { image: ImageAsset; eyebrow: string; title: string; subtitle?: string; cta: string };
   onboarding: {
     intro: { title: string; images: ImageAsset[] };
     shopFor: { title: string; options: ChoiceOption[] };

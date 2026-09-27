@@ -16,7 +16,6 @@ const images = {
 const content: BrandContent = {
   logo: require('./logo.png'),
   logoAspectRatio: 736 / 127,
-  shopIcon: { sf: 'jacket', md: 'checkroom' },
   tagline: "Greatness doesn't wait for good conditions.",
   welcome: {
     image: images.welcome,
@@ -25,8 +24,7 @@ const content: BrandContent = {
   hero: {
     image: images.homeHero,
     eyebrow: 'New season',
-    title: 'Built for the cold.',
-    subtitle: "Greatness doesn't wait for good conditions.",
+    title: "Greatness doesn't wait for good opportunities.",
     cta: 'Shop',
   },
   onboarding: {

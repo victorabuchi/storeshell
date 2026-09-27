@@ -1,7 +1,7 @@
 import { SymbolView } from 'expo-symbols';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { theme } from '@/brand';
+import { displayFont, theme } from '@/brand';
 
 type Props = {
   label: string;
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
   large: { minHeight: 96, paddingVertical: 18 },
   pressed: { backgroundColor: theme.surface },
   text: { flex: 1, gap: 4 },
-  label: { fontSize: 17, color: theme.text },
-  largeLabel: { fontSize: 21, fontWeight: '500', color: theme.text },
+  label: { ...displayFont, fontSize: 18, letterSpacing: 0.5, color: theme.text },
+  largeLabel: { ...displayFont, fontSize: 24, letterSpacing: 0.5, color: theme.text },
   subtitle: { fontSize: 16, color: theme.textMuted },
   value: { fontSize: 16, color: theme.textMuted },
   destructive: { color: '#C62828' },

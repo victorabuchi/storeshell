@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { AccountProvider } from '@/account/account-provider';
-import { theme } from '@/brand';
+import { displayFont, theme } from '@/brand';
 import { CartProvider } from '@/cart/cart-provider';
 import { checkoutConfig } from '@/checkout/config';
 import { FavouritesProvider } from '@/favourites/favourites-provider';
@@ -36,7 +36,12 @@ function RootNavigator() {
   if (!ready) return null;
 
   return (
-    <Stack screenOptions={{ headerTintColor: theme.text, headerShadowVisible: false }}>
+    <Stack
+      screenOptions={{
+        headerTintColor: theme.text,
+        headerShadowVisible: false,
+        headerTitleStyle: { fontFamily: displayFont.fontFamily, fontSize: 22 },
+      }}>
       <Stack.Protected guard={preferences.onboarded}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen

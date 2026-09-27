@@ -57,6 +57,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     plugins: [
       'expo-router',
       'expo-secure-store',
+      ['expo-font', { fonts: (brand.fonts?.files ?? []).map(asset) }],
       [
         'expo-image-picker',
         {
@@ -68,7 +69,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       [
         'expo-splash-screen',
         {
-          backgroundColor: brand.theme.primary,
+          backgroundColor: brand.theme.background,
           image: asset('splash.png'),
           imageWidth: 160,
         },

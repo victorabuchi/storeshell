@@ -1,5 +1,6 @@
 import brandContent from '@brand-content';
 import Constants from 'expo-constants';
+import type { TextStyle } from 'react-native';
 
 import type { BrandExtra } from './types';
 
@@ -18,5 +19,10 @@ export const content = brandContent;
 export const storefrontEndpoint =
   brand.shopify.endpoint ??
   `https://${brand.shopify.storeDomain}/api/${brand.shopify.apiVersion}/graphql.json`;
+
+// Headings, buttons and labels use the brand's display font when it has one.
+export const displayFont: TextStyle = brand.fonts
+  ? { fontFamily: brand.fonts.display }
+  : { fontWeight: '800' };
 
 export type { BrandConfig, BrandContent, ChoiceOption } from './types';

@@ -1,6 +1,6 @@
 import { ActivityIndicator, Pressable, StyleSheet, Text, type ViewStyle } from 'react-native';
 
-import { theme } from '@/brand';
+import { displayFont, theme } from '@/brand';
 
 type Props = {
   title: string;
@@ -47,5 +47,5 @@ const styles = StyleSheet.create({
   },
   primary: { backgroundColor: theme.primary },
   secondary: { backgroundColor: theme.surface, borderWidth: 1, borderColor: theme.border },
-  label: { fontSize: 16, fontWeight: '600' },
+  label: { ...displayFont, fontSize: 18, letterSpacing: 1 },
 });

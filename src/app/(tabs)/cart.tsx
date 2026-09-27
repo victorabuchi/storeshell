@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { Alert, FlatList, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { theme } from '@/brand';
+import { displayFont, theme } from '@/brand';
 import { useCart } from '@/cart/cart-provider';
 import { walletButtons } from '@/checkout/config';
 import { Button } from '@/components/button';
@@ -118,7 +118,7 @@ function StepButton({ label, disabled, onPress }: { label: string; disabled: boo
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: theme.background },
   list: { paddingHorizontal: 16, paddingBottom: 16, gap: 16 },
-  heading: { fontSize: 32, fontWeight: '700', color: theme.text },
+  heading: { ...displayFont, fontSize: 48, lineHeight: 50, color: theme.text },
   empty: {
     flex: 1,
     alignItems: 'center',
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     padding: 24,
     backgroundColor: theme.background,
   },
-  emptyTitle: { fontSize: 20, fontWeight: '600', color: theme.text },
+  emptyTitle: { ...displayFont, fontSize: 26, color: theme.text },
   muted: { fontSize: 13, color: theme.textMuted },
   line: { flexDirection: 'row', gap: 12 },
   lineImage: { width: 88, height: 110, borderRadius: theme.radius, backgroundColor: theme.surface },
@@ -154,6 +154,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.background,
   },
   totalRow: { flexDirection: 'row', justifyContent: 'space-between' },
-  totalLabel: { fontSize: 16, color: theme.text },
-  totalValue: { fontSize: 16, fontWeight: '600', color: theme.text },
+  totalLabel: { ...displayFont, fontSize: 20, letterSpacing: 1, color: theme.text },
+  totalValue: { ...displayFont, fontSize: 20, letterSpacing: 1, color: theme.text },
 });

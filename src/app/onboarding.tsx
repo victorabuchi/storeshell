@@ -8,7 +8,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAccount } from '@/account/account-provider';
-import { brand, content, theme, type ChoiceOption } from '@/brand';
+import { brand, content, displayFont, theme, type ChoiceOption } from '@/brand';
 import { BrandMark } from '@/components/brand-mark';
 import { PillButton } from '@/components/pill-button';
 import { usePreferences } from '@/preferences/preferences-provider';
@@ -242,6 +242,9 @@ function ChoiceList({
 }
 
 const DARK = theme.primary;
+// DARK at a given opacity, for the fade over the intro photos.
+const dark = (alpha: number) =>
+  `rgba(${[1, 3, 5].map((i) => parseInt(DARK.slice(i, i + 2), 16)).join(',')},${alpha})`;
 const MUTED = 'rgba(255,255,255,0.6)';
 
 const styles = StyleSheet.create({
@@ -256,7 +259,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   progressFill: { height: '100%', borderRadius: 2, backgroundColor: '#FFFFFF' },
-  title: { color: '#FFFFFF', fontSize: 28, lineHeight: 34, fontWeight: '500', letterSpacing: -0.3 },
+  title: { ...displayFont, color: '#FFFFFF', fontSize: 40, lineHeight: 40, letterSpacing: 0.3 },
   body: { color: MUTED, fontSize: 17, lineHeight: 24, marginTop: 16 },
   footer: { position: 'absolute', left: 0, right: 0, bottom: 0, alignItems: 'center' },
 
@@ -265,24 +268,24 @@ const styles = StyleSheet.create({
   collageImage: { width: '100%', borderRadius: 14 },
   collageShade: {
     ...StyleSheet.absoluteFill,
-    experimental_backgroundImage: `linear-gradient(to bottom, ${DARK} 0%, rgba(14,26,36,0.55) 35%, rgba(14,26,36,0.3) 70%, ${DARK} 100%)`,
+    experimental_backgroundImage: `linear-gradient(to bottom, ${DARK} 0%, ${dark(0.55)} 35%, ${dark(0.3)} 70%, ${DARK} 100%)`,
   },
   introTitle: {
     position: 'absolute',
     left: 28,
     right: 28,
     color: '#FFFFFF',
-    fontSize: 27,
-    lineHeight: 33,
-    fontWeight: '500',
-    letterSpacing: -0.3,
+    ...displayFont,
+    fontSize: 36,
+    lineHeight: 37,
+    letterSpacing: 0.3,
   },
 
   choices: { marginTop: 36 },
   choice: { flexDirection: 'row', alignItems: 'center', paddingVertical: 18, gap: 20 },
   choiceDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: 'rgba(255,255,255,0.25)' },
   choiceImage: { width: 64, height: 64, borderRadius: 32 },
-  choiceLabel: { flex: 1, color: MUTED, fontSize: 19, fontWeight: '500' },
+  choiceLabel: { ...displayFont, flex: 1, color: MUTED, fontSize: 26, letterSpacing: 0.5 },
   choiceLabelActive: { color: '#FFFFFF' },
   radio: {
     width: 28,
@@ -307,11 +310,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sizeChipActive: { backgroundColor: '#FFFFFF' },
-  sizeLabel: { color: '#FFFFFF', fontSize: 17, fontWeight: '600' },
+  sizeLabel: { ...displayFont, color: '#FFFFFF', fontSize: 22, letterSpacing: 1 },
   sizeLabelActive: { color: DARK },
 
   done: { justifyContent: 'center', gap: 20 },
-  doneTitle: { color: '#FFFFFF', fontSize: 32, lineHeight: 40, fontWeight: '500', letterSpacing: -0.4 },
+  doneTitle: { ...displayFont, color: '#FFFFFF', fontSize: 48, lineHeight: 48, letterSpacing: 0.5 },
   doneSubtitle: { color: MUTED, fontSize: 22, lineHeight: 29 },
-  memberSince: { position: 'absolute', left: 28, color: MUTED, fontSize: 15 },
+  memberSince: { ...displayFont, position: 'absolute', left: 28, color: MUTED, fontSize: 17, letterSpacing: 2 },
 });

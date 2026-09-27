@@ -1,6 +1,6 @@
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
-import { theme } from '@/brand';
+import { displayFont, theme } from '@/brand';
 import { Button } from './button';
 
 export function Loading() {
@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
     gap: 12,
     backgroundColor: theme.background,
   },
-  title: { fontSize: 18, fontWeight: '600', color: theme.text },
+  title: { ...displayFont, fontSize: 24, color: theme.text },
   message: { fontSize: 14, color: theme.textMuted, textAlign: 'center' },
 });

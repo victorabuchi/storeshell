@@ -1,7 +1,7 @@
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { brand, theme } from '@/brand';
+import { brand, displayFont, theme } from '@/brand';
 import { ProductCard } from '@/components/product-card';
 import { ErrorState, Loading } from '@/components/status';
 import { useStatusBar } from '@/lib/use-status-bar';
@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
   content: { paddingHorizontal: 16, paddingBottom: 32, gap: 24 },
   row: { gap: 12 },
   header: { gap: 4, marginBottom: 4 },
-  brand: { fontSize: 13, fontWeight: '700', letterSpacing: 2, color: theme.textMuted },
-  title: { fontSize: 32, fontWeight: '700', color: theme.text },
+  brand: { ...displayFont, fontSize: 15, letterSpacing: 4, color: theme.textMuted },
+  title: { ...displayFont, fontSize: 48, lineHeight: 50, color: theme.text },
   subtitle: { fontSize: 15, color: theme.textMuted },
   empty: { paddingVertical: 48, gap: 6 },
-  emptyTitle: { fontSize: 18, fontWeight: '600', color: theme.text },
+  emptyTitle: { ...displayFont, fontSize: 24, color: theme.text },
 });

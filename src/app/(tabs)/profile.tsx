@@ -8,7 +8,7 @@ import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-nati
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAccount } from '@/account/account-provider';
-import { brand, content, theme } from '@/brand';
+import { brand, content, displayFont, theme } from '@/brand';
 import { BrandMark } from '@/components/brand-mark';
 import { ListRow } from '@/components/list-row';
 import { PillButton } from '@/components/pill-button';
@@ -86,7 +86,7 @@ export default function ProfileScreen() {
       </View>
 
       <View style={styles.actions}>
-        <QuickAction icon="shippingbox" label="Orders" onPress={openOrders} />
+        <QuickAction icon="receipt" label="Orders" onPress={openOrders} />
         <QuickAction icon="heart" label="Favourites" onPress={() => router.push('/favourites')} />
         <QuickAction icon="slider.horizontal.3" label="Preferences" onPress={() => router.push('/onboarding')} />
         <QuickAction icon="gearshape" label="Settings" onPress={() => router.push('/settings')} last />
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  name: { fontSize: 24, fontWeight: '500', color: theme.text },
+  name: { ...displayFont, fontSize: 34, letterSpacing: 0.5, color: theme.text },
   pitch: { fontSize: 16, color: theme.textMuted, textAlign: 'center' },
   outline: {
     height: 46,
@@ -182,14 +182,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  outlineLabel: { fontSize: 16, fontWeight: '500', color: theme.text },
+  outlineLabel: { ...displayFont, fontSize: 17, letterSpacing: 1, color: theme.text },
 
   actions: { flexDirection: 'row', marginTop: 36, marginBottom: 24, paddingHorizontal: 12 },
   action: { flex: 1, alignItems: 'center', gap: 10, paddingVertical: 8 },
   actionDivider: { borderRightWidth: StyleSheet.hairlineWidth, borderRightColor: theme.border },
-  actionLabel: { fontSize: 14, color: theme.text },
+  actionLabel: { ...displayFont, fontSize: 15, letterSpacing: 1, color: theme.text },
 
   list: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.border },
   memberSince: { marginTop: 32, paddingVertical: 20, backgroundColor: theme.surface, alignItems: 'center' },
-  memberSinceText: { fontSize: 14, color: theme.textMuted },
+  memberSinceText: { ...displayFont, fontSize: 15, letterSpacing: 2, color: theme.textMuted },
 });

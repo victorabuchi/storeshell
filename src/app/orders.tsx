@@ -3,7 +3,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useAccount, type Order } from '@/account/account-provider';
-import { theme } from '@/brand';
+import { displayFont, theme } from '@/brand';
 import { ErrorState, Loading } from '@/components/status';
 import { formatMoney } from '@/lib/format';
 import { useAsync } from '@/lib/use-async';
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   thumbs: { flexDirection: 'row', gap: 6 },
   thumb: { width: 64, height: 80, borderRadius: 8, backgroundColor: theme.surface },
   info: { flex: 1, gap: 4, justifyContent: 'center' },
-  status: { fontSize: 16, fontWeight: '600', color: theme.text },
+  status: { ...displayFont, fontSize: 20, color: theme.text },
   meta: { fontSize: 14, color: theme.textMuted },
   empty: { padding: 24, fontSize: 16, color: theme.textMuted },
 });

@@ -5,7 +5,7 @@ import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAccount } from '@/account/account-provider';
-import { content } from '@/brand';
+import { content, displayFont } from '@/brand';
 import { BrandMark } from '@/components/brand-mark';
 import { PillButton } from '@/components/pill-button';
 import { Scrim } from '@/components/scrim';
@@ -63,7 +63,7 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: '#000' },
   bottom: { flex: 1, justifyContent: 'flex-end', paddingHorizontal: 28, gap: 28 },
-  headline: { color: '#FFFFFF', fontSize: 27, lineHeight: 33, fontWeight: '500', letterSpacing: -0.3 },
+  headline: { ...displayFont, color: '#FFFFFF', fontSize: 38, lineHeight: 38, letterSpacing: 0.3 },
   actions: { flexDirection: 'row', gap: 14 },
   guest: { color: 'rgba(255,255,255,0.75)', fontSize: 15, fontWeight: '500' },
 });

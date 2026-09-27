@@ -81,7 +81,7 @@ function check() {
   for (const [key, value] of Object.entries(config.theme ?? {})) {
     if (key !== 'radius' && !/^#[0-9a-fA-F]{6}$/.test(value)) errors.push(`theme.${key} must be a #RRGGBB color`);
   }
-  for (const file of ['icon.png', 'splash.png', 'content.ts']) {
+  for (const file of ['icon.png', 'splash.png', 'content.ts', ...(config.fonts?.files ?? [])]) {
     if (!fs.existsSync(path.join(dir, file))) errors.push(`missing brands/${brandKey}/${file}`);
   }
   if (errors.length) fail(`brands/${brandKey} is invalid:\n  - ${errors.join('\n  - ')}`);
@@ -106,9 +106,12 @@ function check() {
 // so regenerate them whenever the brand or its config/assets change.
 function prebuildIfNeeded(platform) {
   const hash = crypto.createHash('sha1');
-  for (const file of ['config.json', 'icon.png', 'splash.png']) {
+  const config = JSON.parse(fs.readFileSync(path.join(brandsDir, brandKey, 'config.json'), 'utf8'));
+  for (const file of ['config.json', 'icon.png', 'splash.png', ...(config.fonts?.files ?? [])]) {
     hash.update(fs.readFileSync(path.join(brandsDir, brandKey, file)));
   }
+  // New native packages need a fresh native project too.
+  hash.update(fs.readFileSync(path.join(root, 'package.json')));
   const stamp = `${brandKey}:${hash.digest('hex')}`;
   const marker = path.join(root, platform, '.storeshell-brand');
   const current = fs.existsSync(marker) ? fs.readFileSync(marker, 'utf8').trim() : null;

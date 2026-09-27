@@ -1,5 +1,7 @@
 import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native';
 
+import { displayFont } from '@/brand';
+
 type Props = {
   title: string;
   onPress: () => void;
@@ -45,5 +47,5 @@ const styles = StyleSheet.create({
   solid: { backgroundColor: '#FFFFFF' },
   outline: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.7)' },
   dark: { backgroundColor: '#111111' },
-  label: { fontSize: 16, fontWeight: '600' },
+  label: { ...displayFont, fontSize: 18, letterSpacing: 1 },
 });

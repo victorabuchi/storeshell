@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 
-import { theme } from '@/brand';
+import { displayFont, theme } from '@/brand';
 import { ProductCard } from '@/components/product-card';
 import { useFavourites } from '@/favourites/favourites-provider';
 
@@ -32,6 +32,6 @@ const styles = StyleSheet.create({
   content: { padding: 16, gap: 24 },
   row: { gap: 12 },
   empty: { paddingVertical: 48, gap: 6 },
-  emptyTitle: { fontSize: 18, fontWeight: '600', color: theme.text },
+  emptyTitle: { ...displayFont, fontSize: 24, color: theme.text },
   emptyBody: { fontSize: 15, color: theme.textMuted },
 });

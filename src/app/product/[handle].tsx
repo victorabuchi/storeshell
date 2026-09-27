@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { theme } from '@/brand';
+import { displayFont, theme } from '@/brand';
 import { useCart } from '@/cart/cart-provider';
 import { walletButtons } from '@/checkout/config';
 import { Button } from '@/components/button';
@@ -188,7 +188,7 @@ function FavouriteButton({ product }: { product: Product }) {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: theme.background },
   body: { padding: 16, gap: 12 },
-  title: { fontSize: 24, fontWeight: '700', color: theme.text },
+  title: { ...displayFont, fontSize: 36, lineHeight: 38, color: theme.text },
   option: { gap: 8, marginTop: 8 },
   optionName: { fontSize: 14, color: theme.textMuted },
   optionValue: { color: theme.text, fontWeight: '600' },
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   },
   chipSelected: { backgroundColor: theme.primary, borderColor: theme.primary },
   chipDisabled: { backgroundColor: theme.surface },
-  chipText: { fontSize: 14, color: theme.text, fontWeight: '500' },
+  chipText: { ...displayFont, fontSize: 16, letterSpacing: 0.5, color: theme.text },
   chipTextDisabled: { color: theme.textMuted, textDecorationLine: 'line-through' },
   description: { fontSize: 15, lineHeight: 22, color: theme.text, marginTop: 8 },
   footer: {
