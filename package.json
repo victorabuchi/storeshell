@@ -7,6 +7,7 @@
     "@react-native-async-storage/async-storage": "2.2.0",
     "@shopify/checkout-sheet-kit": "^3.9.0",
     "expo": "~57.0.25",
+    "expo-build-properties": "~57.0.22",
     "expo-constants": "~57.0.19",
     "expo-dev-client": "~57.0.19",
     "expo-device": "~57.0.2",
@@ -43,7 +44,8 @@
     "android": "node scripts/brand.js android",
     "brand:check": "node scripts/brand.js check",
     "brand:new": "node scripts/brand.js new",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "expo lint"
   },
   "private": true
 }

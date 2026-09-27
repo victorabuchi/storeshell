@@ -61,6 +61,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
           imageWidth: 120,
         },
       ],
+      // iOS 27 terminates apps that don't adopt the UIScene life cycle at launch.
+      // No-op on SDK 58+, where the template adopts it.
+      ['expo-build-properties', { ios: { enableSceneSupport: true } }],
       './plugins/withXcodeRecommendedSettings',
     ],
     experiments: {
