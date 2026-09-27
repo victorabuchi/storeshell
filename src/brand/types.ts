@@ -42,6 +42,11 @@ export type BrandConfig = {
   };
   // Display font for headings, buttons and labels. `files` are embedded at build
   // time (paths relative to the brand folder); `display` is the font's family name.
+  support?: {
+    // Public page explaining how to delete an account (Google Play requires one).
+    // Defaults to the store's /pages/contact.
+    accountDeletionUrl?: string;
+  };
   // The brand's EAS project (builds, submissions and over-the-air updates).
   eas?: {
     owner: string;

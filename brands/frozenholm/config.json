@@ -41,5 +41,8 @@
   "eas": {
     "owner": "victorabuchi",
     "projectId": "5cb519a1-2d4c-4ba9-be82-ee0ad5cb95a1"
+  },
+  "support": {
+    "accountDeletionUrl": "https://frozenholm.com/pages/delete-account"
   }
 }

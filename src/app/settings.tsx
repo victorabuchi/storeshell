@@ -23,10 +23,14 @@ export default function SettingsScreen() {
   const deleteAccount = () =>
     Alert.alert(
       'Delete account',
-      `We'll open ${brand.name}'s contact page. Ask for your account and personal data to be deleted, and we'll confirm by email.`,
+      `We'll open ${brand.name}'s account deletion page. Send the request from there and we'll confirm by email once your account and personal data are deleted.`,
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'Continue', style: 'destructive', onPress: () => open(`${storeUrl}/pages/contact`) },
+        {
+          text: 'Continue',
+          style: 'destructive',
+          onPress: () => open(brand.support?.accountDeletionUrl ?? `${storeUrl}/pages/contact`),
+        },
       ],
     );
 
