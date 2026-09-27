@@ -1,3 +1,4 @@
+import brandContent from '@brand-content';
 import Constants from 'expo-constants';
 
 import type { BrandExtra } from './types';
@@ -12,9 +13,11 @@ export const brandKey = extra.brandKey;
 export const brand = extra.brand;
 export const theme = extra.brand.theme;
 export const storefrontToken = extra.storefrontToken;
+export const logoSvg = extra.logoSvg;
+export const content = brandContent;
 
 export const storefrontEndpoint =
   brand.shopify.endpoint ??
   `https://${brand.shopify.storeDomain}/api/${brand.shopify.apiVersion}/graphql.json`;
 
-export type { BrandConfig } from './types';
+export type { BrandConfig, BrandContent, ChoiceOption } from './types';

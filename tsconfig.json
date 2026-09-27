@@ -8,6 +8,9 @@
       ],
       "@/assets/*": [
         "./assets/*"
+      ],
+      "@brand-content": [
+        "./brands/frozenholm/content.ts"
       ]
     },
     "types": [

@@ -13,7 +13,9 @@
   },
   "shopify": {
     "storeDomain": "mqxpdg-66.myshopify.com",
-    "apiVersion": "2026-07"
+    "apiVersion": "2026-07",
+    "shopId": "96007389450",
+    "customerAccountClientId": ""
   },
   "theme": {
     "primary": "#0E1A24",

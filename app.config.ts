@@ -21,14 +21,19 @@ const asset = (file: string) => `./brands/${brandKey}/${file}`;
 const storefrontToken =
   process.env[`${brandKey.toUpperCase().replace(/-/g, '_')}_STOREFRONT_TOKEN`] ?? '';
 
+const logoSvg = fs.readFileSync(path.join(brandDir, 'logo.svg'), 'utf8');
+
+// Shopify's customer account sign-in redirects mobile apps to shop.<shopId>.app://callback
+const schemes = [brand.scheme, ...(brand.shopify.shopId ? [`shop.${brand.shopify.shopId}.app`] : [])];
+
 export default ({ config }: ConfigContext): ExpoConfig => {
-  const extra: BrandExtra = { brandKey, brand, storefrontToken };
+  const extra: BrandExtra = { brandKey, brand, storefrontToken, logoSvg };
 
   return {
     ...config,
     name: brand.name,
     slug: brand.slug,
-    scheme: brand.scheme,
+    scheme: schemes,
     version: brand.version,
     orientation: 'portrait',
     icon: asset('icon.png'),
@@ -53,12 +58,13 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     plugins: [
       'expo-router',
+      'expo-secure-store',
       [
         'expo-splash-screen',
         {
-          backgroundColor: brand.theme.background,
+          backgroundColor: brand.theme.primary,
           image: asset('splash.png'),
-          imageWidth: 120,
+          imageWidth: 160,
         },
       ],
       // iOS 27 terminates apps that don't adopt the UIScene life cycle at launch.
