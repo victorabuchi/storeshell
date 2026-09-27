@@ -7,6 +7,9 @@
 //   npm run android -- <brand>      build + run on an Android emulator
 //   npm run brand:check -- <brand>  validate brands/<brand>
 //   npm run brand:new -- <brand>    scaffold brands/<brand> from the demo brand
+//   npm run build -- <brand> --platform ios|android   store build on EAS (production profile)
+//   npm run submit -- <brand> --platform ios|android  send the latest build to App Store Connect / Play
+//   npm run update -- <brand> --message "..."         over-the-air JS update to store builds
 //
 // <brand> defaults to $BRAND, then "frozenholm". Extra flags are passed to the Expo CLI.
 
@@ -122,6 +125,12 @@ function prebuildIfNeeded(platform) {
   }
 }
 
+function requireEas(config) {
+  if (!config.eas?.projectId) {
+    fail(`brands/${brandKey}/config.json has no "eas" section. Run \`BRAND=${brandKey} npx eas-cli init\` and copy the owner and projectId there.`);
+  }
+}
+
 function scaffold() {
   if (!brandArg) fail('Usage: npm run brand:new -- <brand>');
   if (!/^[a-z0-9-]+$/.test(brandKey)) fail('Brand name must be lowercase letters, numbers and dashes');
@@ -162,6 +171,20 @@ switch (command) {
   case 'new':
     scaffold();
     break;
+  // Each brand is its own EAS project (config.eas), with BRAND and its storefront
+  // token stored as EAS environment variables so cloud builds pick the right brand.
+  case 'build':
+    requireEas(check());
+    run('npx', ['eas-cli@latest', 'build', '--profile', 'production', ...passthrough]);
+    break;
+  case 'submit':
+    requireEas(check());
+    run('npx', ['eas-cli@latest', 'submit', '--profile', 'production', '--latest', ...passthrough]);
+    break;
+  case 'update':
+    requireEas(check());
+    run('npx', ['eas-cli@latest', 'update', '--channel', 'production', '--environment', 'production', ...passthrough]);
+    break;
   default:
-    fail(`Unknown command "${command ?? ''}". Use: dev, ios, android, check, new`);
+    fail(`Unknown command "${command ?? ''}". Use: dev, ios, android, check, new, build, submit, update`);
 }

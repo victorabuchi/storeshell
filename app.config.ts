@@ -33,6 +33,12 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     slug: brand.slug,
     scheme: schemes,
     version: brand.version,
+    ...(brand.eas && {
+      owner: brand.eas.owner,
+      // JS-only changes ship over the air to builds with the same app version.
+      runtimeVersion: { policy: 'appVersion' as const },
+      updates: { url: `https://u.expo.dev/${brand.eas.projectId}` },
+    }),
     orientation: 'portrait',
     icon: asset('icon.png'),
     userInterfaceStyle: 'light',
@@ -40,6 +46,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       bundleIdentifier: brand.ios.bundleIdentifier,
       appleTeamId: brand.ios.appleTeamId,
       supportsTablet: false,
+      // HTTPS only — exempt from export compliance, so uploads skip the encryption question.
+      config: { usesNonExemptEncryption: false },
       entitlements: brand.ios.appleMerchantId
         ? { 'com.apple.developer.in-app-payments': [brand.ios.appleMerchantId] }
         : undefined,
@@ -47,7 +55,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     android: {
       package: brand.android.package,
       adaptiveIcon: {
-        foregroundImage: asset('icon.png'),
+        foregroundImage: fs.existsSync(path.join(brandDir, 'adaptive-icon.png'))
+          ? asset('adaptive-icon.png')
+          : asset('icon.png'),
         backgroundColor: brand.theme.background,
       },
     },
@@ -83,6 +93,6 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       typedRoutes: true,
       reactCompiler: true,
     },
-    extra,
+    extra: { ...extra, ...(brand.eas && { eas: { projectId: brand.eas.projectId } }) },
   };
 };

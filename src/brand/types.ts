@@ -42,6 +42,11 @@ export type BrandConfig = {
   };
   // Display font for headings, buttons and labels. `files` are embedded at build
   // time (paths relative to the brand folder); `display` is the font's family name.
+  // The brand's EAS project (builds, submissions and over-the-air updates).
+  eas?: {
+    owner: string;
+    projectId: string;
+  };
   fonts?: {
     display: string;
     // Native UIKit views (tab bar) look fonts up by PostScript name instead.

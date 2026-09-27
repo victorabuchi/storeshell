@@ -26,6 +26,7 @@
     "expo-status-bar": "~57.0.1",
     "expo-symbols": "~57.0.3",
     "expo-system-ui": "~57.0.4",
+    "expo-updates": "~57.0.23",
     "expo-web-browser": "~57.0.3",
     "react": "19.2.3",
     "react-dom": "19.2.3",
@@ -51,7 +52,10 @@
     "brand:check": "node scripts/brand.js check",
     "brand:new": "node scripts/brand.js new",
     "typecheck": "tsc --noEmit",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "build": "node scripts/brand.js build",
+    "submit": "node scripts/brand.js submit",
+    "update": "node scripts/brand.js update"
   },
   "private": true
 }
