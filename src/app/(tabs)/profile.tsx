@@ -155,7 +155,9 @@ function QuickAction({
       onPress={onPress}
       style={({ pressed }) => [styles.action, !last && styles.actionDivider, pressed && { opacity: 0.5 }]}>
       <SymbolView name={icon} size={24} tintColor={theme.text} />
-      <Text style={styles.actionLabel}>{label}</Text>
+      <Text style={styles.actionLabel} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.6}>
+        {label}
+      </Text>
     </Pressable>
   );
 }
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
   outlineLabel: { ...displayFont, fontSize: 17, letterSpacing: 1, color: theme.text },
 
   actions: { flexDirection: 'row', marginTop: 36, marginBottom: 24, paddingHorizontal: 12 },
-  action: { flex: 1, alignItems: 'center', gap: 10, paddingVertical: 8 },
+  action: { flex: 1, alignItems: 'center', gap: 10, paddingVertical: 8, paddingHorizontal: 4 },
   actionDivider: { borderRightWidth: StyleSheet.hairlineWidth, borderRightColor: theme.border },
   actionLabel: { ...displayFont, fontSize: 15, letterSpacing: 1, color: theme.text },
 

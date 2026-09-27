@@ -102,7 +102,14 @@ function ActivityCard({ activity }: { activity: ChoiceOption }) {
           <Image source={activity.image} style={StyleSheet.absoluteFill} contentFit="cover" />
         )}
         <Scrim strength={0.7} />
-        <Text style={styles.activityLabel}>{activity.label}</Text>
+        {/* One line per word, so a long word shrinks rather than breaking mid-word. */}
+        <Text
+          style={styles.activityLabel}
+          numberOfLines={activity.label.split(' ').length}
+          adjustsFontSizeToFit
+          minimumFontScale={0.6}>
+          {activity.label}
+        </Text>
       </Pressable>
     </Link>
   );
