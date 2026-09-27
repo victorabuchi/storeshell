@@ -13,7 +13,7 @@ import { BrandMark } from '@/components/brand-mark';
 import { PillButton } from '@/components/pill-button';
 import { usePreferences } from '@/preferences/preferences-provider';
 
-const STEPS = ['intro', 'shopFor', 'activities', 'size', 'notifications', 'done'] as const;
+const STEPS = ['intro', 'shopFor', 'categories', 'size', 'notifications', 'done'] as const;
 type Step = (typeof STEPS)[number];
 const QUESTION_COUNT = 4; // shopFor … notifications show the progress bar
 
@@ -27,19 +27,19 @@ export default function OnboardingScreen() {
   const [editing] = useState(preferences.onboarded);
   const [step, setStep] = useState<Step>(editing ? 'shopFor' : 'intro');
   const [shopFor, setShopFor] = useState(preferences.shopFor);
-  const [activities, setActivities] = useState(preferences.activities);
+  const [categories, setCategories] = useState(preferences.categories);
   const [size, setSize] = useState(preferences.size);
 
   const next = () => setStep(STEPS[STEPS.indexOf(step) + 1]);
 
-  const save = () => update({ shopFor, activities, size });
+  const save = () => update({ shopFor, categories, size });
 
   const finish = () => {
     if (editing) {
       save();
       router.back();
     } else {
-      update({ shopFor, activities, size, onboarded: true });
+      update({ shopFor, categories, size, onboarded: true });
     }
   };
 
@@ -91,9 +91,9 @@ export default function OnboardingScreen() {
           </Question>
         )}
 
-        {step === 'activities' && (
-          <Question title={copy.activities.title} bottomInset={insets.bottom} onNext={next} canContinue={activities.length > 0}>
-            <ChoiceList options={copy.activities.options} selected={activities} onChange={setActivities} />
+        {step === 'categories' && (
+          <Question title={copy.categories.title} bottomInset={insets.bottom} onNext={next} canContinue={categories.length > 0}>
+            <ChoiceList options={copy.categories.options} selected={categories} onChange={setCategories} />
           </Question>
         )}
 

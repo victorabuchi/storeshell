@@ -86,7 +86,8 @@ export type BrandContent = {
   onboarding: {
     intro: { title: string; images: ImageAsset[] };
     shopFor: { title: string; options: ChoiceOption[] };
-    activities: { title: string; options: ChoiceOption[] };
+    // Product categories: an onboarding question, the Home rail and Search suggestions.
+    categories: { title: string; sectionTitle: string; options: ChoiceOption[] };
     size: { title: string; options: string[] };
     notifications: { title: string; body: string };
   };

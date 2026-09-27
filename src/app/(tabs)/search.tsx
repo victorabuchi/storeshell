@@ -16,7 +16,7 @@ export default function SearchScreen() {
   const [text, setText] = useState(params.q ?? '');
   const [query, setQuery] = useState(text);
 
-  // Activity cards on Home open Search with a preset query.
+  // Category cards on Home open Search with a preset query.
   const [presetQuery, setPresetQuery] = useState(params.q);
   if (params.q !== presetQuery) {
     setPresetQuery(params.q);
@@ -49,7 +49,7 @@ export default function SearchScreen() {
       {!query ? (
         <View style={styles.suggestions}>
           <Text style={styles.heading}>Popular</Text>
-          {content.onboarding.activities.options.map((a) => (
+          {content.onboarding.categories.options.map((a) => (
             <Pressable key={a.id} onPress={() => setText(a.label)} hitSlop={6}>
               <Text style={styles.suggestion}>{a.label}</Text>
             </Pressable>

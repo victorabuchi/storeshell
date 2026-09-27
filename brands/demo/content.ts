@@ -22,11 +22,12 @@ const content: BrandContent = {
         { id: 'women', label: "Women's", image: placeholder },
       ],
     },
-    activities: {
-      title: 'What are you into?',
+    categories: {
+      title: 'What are you looking for?',
+      sectionTitle: 'Shop by category',
       options: [
-        { id: 'everyday', label: 'Everyday', image: placeholder },
-        { id: 'sport', label: 'Sport', image: placeholder },
+        { id: 'new', label: 'New In', image: placeholder },
+        { id: 'essentials', label: 'Essentials', image: placeholder },
       ],
     },
     size: { title: "What's your size?", options: ['XS', 'S', 'M', 'L', 'XL', 'XXL'] },

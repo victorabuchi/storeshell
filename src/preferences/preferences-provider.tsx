@@ -6,13 +6,13 @@ import { brandKey } from '@/brand';
 export type Preferences = {
   onboarded: boolean;
   shopFor: string[];
-  activities: string[];
+  categories: string[];
   size?: string;
   // Profile photo chosen on this device (file in the app's document directory).
   avatarUri?: string;
 };
 
-const EMPTY: Preferences = { onboarded: false, shopFor: [], activities: [] };
+const EMPTY: Preferences = { onboarded: false, shopFor: [], categories: [] };
 const STORAGE_KEY = `${brandKey}:preferences`;
 
 type PreferencesContext = {

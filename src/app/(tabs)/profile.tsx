@@ -25,8 +25,8 @@ export default function ProfileScreen() {
   const { customer } = account;
 
   const name = [customer?.firstName, customer?.lastName].filter(Boolean).join(' ');
-  const activities = content.onboarding.activities.options
-    .filter((o) => preferences.activities.includes(o.id))
+  const categories = content.onboarding.categories.options
+    .filter((o) => preferences.categories.includes(o.id))
     .map((o) => o.label);
 
   const signIn = () => account.signIn().catch((e: Error) => Alert.alert('Could not sign in', e.message));
@@ -96,7 +96,7 @@ export default function ProfileScreen() {
         <ListRow
           large
           label="Your preferences"
-          value={[preferences.size && `Size ${preferences.size}`, ...activities].filter(Boolean).join(' · ') || 'Not set'}
+          value={[preferences.size && `Size ${preferences.size}`, ...categories].filter(Boolean).join(' · ') || 'Not set'}
           onPress={() => router.push('/onboarding')}
         />
         {customer && (

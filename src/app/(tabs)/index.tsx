@@ -20,9 +20,9 @@ export default function HomeScreen() {
   const { preferences } = usePreferences();
   const newIn = useAsync(() => getProducts(10, 'CREATED_AT'), 'new-in');
 
-  // The activities the customer picked come first.
-  const activities = [...content.onboarding.activities.options].sort(
-    (a, b) => Number(preferences.activities.includes(b.id)) - Number(preferences.activities.includes(a.id)),
+  // The categories the customer picked come first.
+  const categories = [...content.onboarding.categories.options].sort(
+    (a, b) => Number(preferences.categories.includes(b.id)) - Number(preferences.categories.includes(a.id)),
   );
 
   return (
@@ -46,14 +46,14 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <Section title="Shop by activity">
+      <Section title={content.onboarding.categories.sectionTitle}>
         <FlatList
           horizontal
-          data={activities}
+          data={categories}
           keyExtractor={(a) => a.id}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.rail}
-          renderItem={({ item }) => <ActivityCard activity={item} />}
+          renderItem={({ item }) => <CategoryCard category={item} />}
         />
       </Section>
 
@@ -94,21 +94,21 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function ActivityCard({ activity }: { activity: ChoiceOption }) {
+function CategoryCard({ category }: { category: ChoiceOption }) {
   return (
-    <Link href={{ pathname: '/search', params: { q: activity.label } }} asChild>
-      <Pressable style={styles.activityCard}>
-        {activity.image !== undefined && (
-          <Image source={activity.image} style={StyleSheet.absoluteFill} contentFit="cover" />
+    <Link href={{ pathname: '/search', params: { q: category.label } }} asChild>
+      <Pressable style={styles.categoryCard}>
+        {category.image !== undefined && (
+          <Image source={category.image} style={StyleSheet.absoluteFill} contentFit="cover" />
         )}
         <Scrim strength={0.7} />
         {/* One line per word, so a long word shrinks rather than breaking mid-word. */}
         <Text
-          style={styles.activityLabel}
-          numberOfLines={activity.label.split(' ').length}
+          style={styles.categoryLabel}
+          numberOfLines={category.label.split(' ').length}
           adjustsFontSizeToFit
           minimumFontScale={0.6}>
-          {activity.label}
+          {category.label}
         </Text>
       </Pressable>
     </Link>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   sectionTitle: { ...displayFont, fontSize: 30, letterSpacing: 0.5, color: theme.text, paddingHorizontal: 20 },
   rail: { paddingHorizontal: 20, gap: 12 },
 
-  activityCard: {
+  categoryCard: {
     width: 170,
     height: 230,
     borderRadius: theme.radius,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     backgroundColor: theme.surface,
   },
-  activityLabel: { ...displayFont, color: '#FFFFFF', fontSize: 24, letterSpacing: 0.5, padding: 14 },
+  categoryLabel: { ...displayFont, color: '#FFFFFF', fontSize: 24, letterSpacing: 0.5, padding: 14 },
 
   productSlot: { width: 180 },
   emptyCard: {

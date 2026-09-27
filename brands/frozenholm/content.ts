@@ -5,12 +5,13 @@ const images = {
   homeHero: require('./images/home-hero.jpg'),
   men: require('./images/men.jpg'),
   women: require('./images/women.jpg'),
-  skiing: require('./images/skiing.jpg'),
-  snowboarding: require('./images/snowboarding.jpg'),
-  hiking: require('./images/hiking.jpg'),
-  everyday: require('./images/everyday.jpg'),
-  summit: require('./images/summit.jpg'),
-  trail: require('./images/trail.jpg'),
+  wall: require('./images/wall.jpg'),
+  outerwear: require('./images/outerwear.jpg'),
+  knitwear: require('./images/knitwear.jpg'),
+  denim: require('./images/denim.jpg'),
+  essentials: require('./images/essentials.jpg'),
+  footwear: require('./images/footwear.jpg'),
+  accessories: require('./images/accessories.jpg'),
 };
 
 const content: BrandContent = {
@@ -29,24 +30,26 @@ const content: BrandContent = {
   },
   onboarding: {
     intro: {
-      title: "Let's set Frozenholm up for how you move. A few quick questions.",
-      images: [images.summit, images.snowboarding, images.women, images.skiing, images.hiking, images.trail],
+      title: 'Tell us what you wear. A few quick questions.',
+      images: [images.welcome, images.essentials, images.women, images.denim, images.wall, images.homeHero],
     },
     shopFor: {
-      title: 'Who do you shop for most?',
+      title: 'Who do you shop for?',
       options: [
-        { id: 'men', label: "Men's", image: images.men },
-        { id: 'women', label: "Women's", image: images.women },
+        { id: 'men', label: 'Men', image: images.men },
+        { id: 'women', label: 'Women', image: images.women },
       ],
     },
-    activities: {
-      title: 'How do you spend winter?',
+    categories: {
+      title: 'What are you looking for?',
+      sectionTitle: 'Shop by category',
       options: [
-        { id: 'skiing', label: 'Skiing', image: images.skiing },
-        { id: 'snowboarding', label: 'Snowboarding', image: images.snowboarding },
-        { id: 'running', label: 'Winter running', image: images.welcome },
-        { id: 'hiking', label: 'Hiking', image: images.hiking },
-        { id: 'everyday', label: 'Everyday', image: images.everyday },
+        { id: 'outerwear', label: 'Outerwear', image: images.outerwear },
+        { id: 'knitwear', label: 'Knitwear', image: images.knitwear },
+        { id: 'denim', label: 'Denim', image: images.denim },
+        { id: 'essentials', label: 'Essentials', image: images.essentials },
+        { id: 'footwear', label: 'Footwear', image: images.footwear },
+        { id: 'accessories', label: 'Accessories', image: images.accessories },
       ],
     },
     size: {
@@ -54,7 +57,7 @@ const content: BrandContent = {
       options: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     },
     notifications: {
-      title: 'Be first when new drops land',
+      title: 'Be first to new drops',
       body: "We'll only notify you about new drops, restocks and your orders.",
     },
   },
